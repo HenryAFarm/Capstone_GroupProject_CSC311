@@ -40,7 +40,7 @@ public class UIController {
         imageDropArea.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             List<File> files = dragboard.getFiles();
-            boolean loaded = !files.isEmpty() && loadImage(files.get(0));
+            boolean loaded = !files.isEmpty() && loadImage(files.getFirst());
             event.setDropCompleted(loaded);
             event.consume();
         });
