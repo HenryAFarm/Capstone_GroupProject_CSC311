@@ -2,6 +2,7 @@ package org.example.capstone_groupproject_csc311;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
@@ -26,6 +27,11 @@ public class UIController {
 
     @FXML
     private Label statusLabel;
+
+    @FXML
+    private TextArea captionPreview;
+
+    private final ImageCaptioner imageCaptioner = new ImageCaptioner();
 
     @FXML
     private void initialize() {
@@ -65,6 +71,13 @@ public class UIController {
         Image image = new Image(file.toURI().toString());
         if (image.isError()) {
             statusLabel.setText("Could not load image: " + file.getName());
+            return false;
+        }
+
+        try {
+            captionPreview.setText(imageCaptioner.generateCaption(image));
+        } catch (IllegalArgumentException exception) {
+            statusLabel.setText(exception.getMessage());
             return false;
         }
 
