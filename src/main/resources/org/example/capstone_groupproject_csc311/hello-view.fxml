@@ -13,6 +13,6 @@
     </padding>
 
     <Label fx:id="welcomeText" text="Type text below to hear it read aloud."/>
-    <TextArea fx:id="textToSpeak" prefRowCount="4" wrapText="true" text="..."/>
+    <TextArea fx:id="textToSpeak" prefRowCount="4" wrapText="true" text=""/>
     <Button fx:id="speakButton" text="Speak" onAction="#speakText"/>
 </VBox>
