@@ -13,12 +13,12 @@ public class ImageCaptioner {
 
     public String generateCaption(Image image) {
         if (image == null || image.getWidth() <= 0 || image.getHeight() <= 0) {
-            throw new IllegalArgumentException("A readable image is required to generate a caption.");
+            throw new IllegalArgumentException("An image is required to generate a caption.");
         }
 
         PixelReader pixelReader = image.getPixelReader();
         if (pixelReader == null) {
-            throw new IllegalArgumentException("The image does not contain readable pixel data.");
+            throw new IllegalArgumentException("The image does not contain readable from pixel data.");
         }
 
         Map<String, ColorStats> colors = new HashMap<>();
