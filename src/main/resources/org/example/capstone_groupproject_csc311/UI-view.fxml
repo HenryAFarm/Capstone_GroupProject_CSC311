@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="16.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.capstone_groupproject_csc311.UIController"
+      prefHeight="600.0" prefWidth="800.0">
+    <padding>
+        <Insets bottom="20.0" left="32.0" right="32.0" top="20.0"/>
+    </padding>
+
+    <Label text="Image Describer" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <Label text="Choose an image or drag one into the preview area."/>
+
+    <StackPane fx:id="imageDropArea" alignment="CENTER" prefHeight="300.0"
+               maxWidth="720.0"
+               style="-fx-border-color: #8a8a8a; -fx-border-style: dashed; -fx-border-radius: 8; -fx-background-color: #f4f4f4; -fx-background-radius: 8;">
+        <ImageView fx:id="imagePreview" fitWidth="680.0" fitHeight="270.0"
+                   preserveRatio="true" smooth="true"/>
+        <Label fx:id="placeholderLabel" text="Drop an image here"
+               style="-fx-text-fill: #666666; -fx-font-size: 16px;"/>
+    </StackPane>
+
+    <Button text="Choose Image..." onAction="#chooseImage"/>
+    <Label fx:id="statusLabel" text="No image selected." wrapText="true"/>
+    <Label text="Generated description" style="-fx-font-weight: bold; -fx-underline: true;"/>
+    <TextArea fx:id="captionPreview" text="The generated description will appear here."
+              prefRowCount="3" maxWidth="720.0" wrapText="true" editable="false"/>
+</VBox>
