@@ -19,6 +19,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UI-view.fxml"));
         Scene mainScene = new Scene(fxmlLoader.load(), 800, 600);
+        UIController controller = fxmlLoader.getController();
+        stage.setOnHidden(event -> controller.close());
 
         URL splashImageUrl = HelloApplication.class.getResource(
                 "/images_/Screenshot 2026-10-22 105826.png");
