@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class LocalImageClassifier implements AutoCloseable {
+    //Using a online website to look at the images and give a helpful description of that image
     private static final int INPUT_SIZE = 224;
     private static final int TOP_LABEL_COUNT = 1;
     private static final double MIN_LABEL_CONFIDENCE = 0.35;
@@ -98,6 +99,7 @@ public class LocalImageClassifier implements AutoCloseable {
         }
     }
 
+    //Needing to download a certain file. To help read the images.
     private void download(String source, Path destination) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder(URI.create(source))
                 .timeout(Duration.ofMinutes(2))

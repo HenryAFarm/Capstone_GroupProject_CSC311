@@ -2,6 +2,7 @@ package org.example.capstone_groupproject_csc311;
 
 import javafx.fxml.FXML;
 import javafx.concurrent.Task;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -13,6 +14,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,6 +41,9 @@ public class UIController {
     @FXML
     private TextArea captionPreview;
 
+    @FXML
+    private Button speakButton;
+
     private final ImageCaptioner imageCaptioner = new ImageCaptioner();
     private final LocalImageClassifier imageClassifier = new LocalImageClassifier();
     private final ExecutorService analysisExecutor = Executors.newSingleThreadExecutor(task -> {
@@ -42,8 +51,14 @@ public class UIController {
         thread.setDaemon(true);
         return thread;
     });
+    private final ExecutorService speechExecutor = Executors.newSingleThreadExecutor(task -> {
+        Thread thread = new Thread(task, "description-text-to-speech");
+        thread.setDaemon(true);
+        return thread;
+    });
     private Future<?> activeAnalysis;
     private long analysisRequestId;
+    private boolean descriptionAvailable;
 
     @FXML
     private void initialize() {
@@ -90,6 +105,8 @@ public class UIController {
         placeholderLabel.setVisible(false);
         placeholderLabel.setManaged(false);
         captionPreview.setText("Analyzing image...");
+        descriptionAvailable = false;
+        speakButton.setDisable(true);
         statusLabel.setText("Analyzing colors and likely image subjects locally.");
 
         long requestId = ++analysisRequestId;
@@ -131,6 +148,8 @@ public class UIController {
             if (requestId == analysisRequestId) {
                 CaptionResult result = task.getValue();
                 captionPreview.setText(result.caption());
+                descriptionAvailable = !result.caption().isBlank();
+                speakButton.setDisable(!descriptionAvailable);
                 statusLabel.setText(result.status());
             }
         });
@@ -138,6 +157,8 @@ public class UIController {
             if (requestId == analysisRequestId) {
                 Throwable failure = task.getException();
                 captionPreview.setText("The image description could not be generated.");
+                descriptionAvailable = false;
+                speakButton.setDisable(true);
                 statusLabel.setText("Local image recognition failed: "
                         + (failure == null ? "Unknown analysis error." : failure.getMessage()));
             }
@@ -146,8 +167,76 @@ public class UIController {
         return true;
     }
 
+    @FXML
+    private void speakDescription() {
+        String description = captionPreview.getText().trim();
+        if (description.isEmpty()) {
+            return;
+        }
+
+        speakButton.setDisable(true);
+        speakButton.setText("Speaking...");
+        statusLabel.setText("Reading the description aloud.");
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                speakWithWindowsSpeech(description);
+                return null;
+            }
+        };
+        task.setOnSucceeded(event -> {
+            speakButton.setText("Read Aloud");
+            speakButton.setDisable(!descriptionAvailable);
+            if (descriptionAvailable) {
+                statusLabel.setText("Finished reading the description aloud.");
+            }
+        });
+        task.setOnFailed(event -> {
+            Throwable failure = task.getException();
+            speakButton.setText("Read Aloud");
+            speakButton.setDisable(!descriptionAvailable);
+            if (descriptionAvailable) {
+                statusLabel.setText("Text-to-speech failed: "
+                        + (failure == null ? "Unknown speech error." : failure.getMessage()));
+            }
+        });
+        speechExecutor.submit(task);
+    }
+
+    private void speakWithWindowsSpeech(String text) throws IOException, InterruptedException {
+        String script = "$text = [System.IO.StreamReader]::new("
+                + "[Console]::OpenStandardInput(), [System.Text.Encoding]::UTF8).ReadToEnd(); "
+                + "Add-Type -AssemblyName System.Speech; "
+                + "$synth = New-Object System.Speech.Synthesis.SpeechSynthesizer; "
+                + "$synth.Speak($text); $synth.Dispose()";
+        Process process = new ProcessBuilder(
+                "powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script)
+                .redirectErrorStream(true)
+                .start();
+
+        try (OutputStreamWriter writer =
+                     new OutputStreamWriter(process.getOutputStream(), StandardCharsets.UTF_8)) {
+            writer.write(text);
+        }
+
+        byte[] output;
+        try (InputStream input = process.getInputStream();
+             ByteArrayOutputStream capturedOutput = new ByteArrayOutputStream()) {
+            input.transferTo(capturedOutput);
+            output = capturedOutput.toByteArray();
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            throw new IOException("Windows speech synthesis exited with code " + exitCode + ": "
+                    + new String(output, StandardCharsets.UTF_8).trim());
+        }
+    }
+
     public void close() {
         analysisExecutor.shutdownNow();
+        speechExecutor.shutdownNow();
         imageClassifier.close();
     }
 

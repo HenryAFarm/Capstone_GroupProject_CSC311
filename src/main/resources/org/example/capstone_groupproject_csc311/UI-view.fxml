@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -30,6 +31,10 @@
     <Button text="Choose Image..." onAction="#chooseImage"/>
     <Label fx:id="statusLabel" text="No image selected." wrapText="true"/>
     <Label text="Generated description" style="-fx-font-weight: bold; -fx-underline: true;"/>
-    <TextArea fx:id="captionPreview" text="The generated description will appear here."
-              prefRowCount="3" maxWidth="720.0" wrapText="true" editable="false"/>
+    <HBox alignment="CENTER" spacing="12.0" maxWidth="720.0">
+        <TextArea fx:id="captionPreview" text="The generated description will appear here."
+                  prefWidth="600.0" prefRowCount="3" maxWidth="640.0"
+                  wrapText="true" editable="false"/>
+        <Button fx:id="speakButton" text="Read Aloud" onAction="#speakDescription" disable="true"/>
+    </HBox>
 </VBox>

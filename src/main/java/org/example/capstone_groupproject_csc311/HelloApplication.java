@@ -14,6 +14,13 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ *
+ * @author Henry Arevalo, Sheraz Rahim, Paul Quigley, Muhammad Faseeh, Patrick Hickey, Michael Hickey.
+ *
+ */
+
+
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

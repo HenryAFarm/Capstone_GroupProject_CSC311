@@ -18,6 +18,8 @@ public class HelloController {
 
     private final TextToSpeechService textToSpeechService = new TextToSpeechService();
 
+    //Testing the Text To Speech Tool, initial start!
+
     @FXML
     private void speakText() {
         String text = textToSpeak.getText();
