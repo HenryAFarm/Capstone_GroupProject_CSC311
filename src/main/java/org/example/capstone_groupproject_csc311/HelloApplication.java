@@ -10,6 +10,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.example.capstone_groupproject_csc311.backend.BackendApplication;
+import org.example.capstone_groupproject_csc311.service.UIController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,8 +26,12 @@ import java.net.URL;
 
 
 public class HelloApplication extends Application {
+    private ConfigurableApplicationContext springContext;
+
     @Override
     public void start(Stage stage) throws IOException {
+        springContext = SpringApplication.run(BackendApplication.class);
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UI-view.fxml"));
         Scene mainScene = new Scene(fxmlLoader.load(), 800, 600);
         UIController controller = fxmlLoader.getController();
@@ -56,5 +64,12 @@ public class HelloApplication extends Application {
             stage.setScene(mainScene);
         });
         splashDuration.play();
+    }
+
+    @Override
+    public void stop() {
+        if (springContext != null) {
+            springContext.close();
+        }
     }
 }

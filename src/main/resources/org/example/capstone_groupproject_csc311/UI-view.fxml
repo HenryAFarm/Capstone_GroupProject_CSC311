@@ -11,7 +11,7 @@
 
 <StackPane stylesheets="@style.css" styleClass="app-root"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="org.example.capstone_groupproject_csc311.UIController"
+           fx:controller="org.example.capstone_groupproject_csc311.service.UIController"
            prefHeight="600.0" prefWidth="800.0">
     <VBox alignment="TOP_CENTER" spacing="10.0" maxWidth="760.0" styleClass="content-card">
         <padding>
