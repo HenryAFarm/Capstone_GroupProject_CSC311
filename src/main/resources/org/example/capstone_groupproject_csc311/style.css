@@ -1,0 +1,101 @@
+.app-root {
+    -fx-background-color: linear-gradient(to bottom right, #e8f1ff, #f5efff);
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.content-card {
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-effect: dropshadow(gaussian, rgba(38, 58, 95, 0.16), 28, 0.18, 0, 10);
+}
+
+.title {
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #172554;
+}
+
+.subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+}
+
+.drop-area {
+    -fx-background-color: linear-gradient(to bottom, #f8fbff, #eef5ff);
+    -fx-background-radius: 16;
+    -fx-border-color: #8bb5f0;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+}
+
+.drop-area.image-loaded {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #6d9ce8;
+    -fx-border-style: solid;
+}
+
+.placeholder {
+    -fx-text-fill: #52719c;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #2563eb, #4f46e5);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 22;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #1d4ed8, #4338ca);
+    -fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.3), 10, 0.15, 0, 3);
+}
+
+.status-label {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 8;
+    -fx-text-fill: #475569;
+    -fx-padding: 7 12;
+}
+
+.section-title {
+    -fx-text-fill: #25365e;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.caption-area {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 10;
+    -fx-border-color: #dbe4f0;
+    -fx-border-radius: 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #334155;
+}
+
+.caption-area .content {
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 10;
+}
+
+.secondary-button {
+    -fx-background-color: #e0eaff;
+    -fx-background-radius: 10;
+    -fx-text-fill: #1d4ed8;
+    -fx-font-weight: bold;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #c7d9ff;
+}
+
+.secondary-button:disabled {
+    -fx-opacity: 0.55;
+}

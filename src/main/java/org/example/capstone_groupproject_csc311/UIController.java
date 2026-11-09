@@ -25,6 +25,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class UIController {
+    private static final double MAX_PREVIEW_WIDTH = 660.0;
+    private static final double MAX_PREVIEW_HEIGHT = 285.0;
+    private static final double DROP_AREA_PADDING = 28.0;
 
     @FXML
     private StackPane imageDropArea;
@@ -102,6 +105,17 @@ public class UIController {
         }
 
         imagePreview.setImage(image);
+        double scale = Math.min(MAX_PREVIEW_WIDTH / image.getWidth(),
+                MAX_PREVIEW_HEIGHT / image.getHeight());
+        double previewWidth = image.getWidth() * scale;
+        double previewHeight = image.getHeight() * scale;
+        imagePreview.setFitWidth(previewWidth);
+        imagePreview.setFitHeight(previewHeight);
+        imageDropArea.setPrefWidth(previewWidth + DROP_AREA_PADDING);
+        imageDropArea.setPrefHeight(previewHeight + DROP_AREA_PADDING);
+        if (!imageDropArea.getStyleClass().contains("image-loaded")) {
+            imageDropArea.getStyleClass().add("image-loaded");
+        }
         placeholderLabel.setVisible(false);
         placeholderLabel.setManaged(false);
         captionPreview.setText("Analyzing image...");

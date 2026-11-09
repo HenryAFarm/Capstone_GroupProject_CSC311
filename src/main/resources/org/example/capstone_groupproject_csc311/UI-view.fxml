@@ -9,32 +9,36 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="16.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.capstone_groupproject_csc311.UIController"
-      prefHeight="600.0" prefWidth="800.0">
-    <padding>
-        <Insets bottom="20.0" left="32.0" right="32.0" top="20.0"/>
-    </padding>
+<StackPane stylesheets="@style.css" styleClass="app-root"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.capstone_groupproject_csc311.UIController"
+           prefHeight="600.0" prefWidth="800.0">
+    <VBox alignment="TOP_CENTER" spacing="10.0" maxWidth="760.0" styleClass="content-card">
+        <padding>
+            <Insets bottom="16.0" left="28.0" right="28.0" top="16.0"/>
+        </padding>
 
-    <Label text="Image Describer" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-    <Label text="Choose an image or drag one into the preview area."/>
+        <VBox alignment="CENTER" spacing="5.0" styleClass="heading">
+            <Label text="Image Describer" styleClass="title"/>
+            <Label text="Choose an image or drag one into the preview area." styleClass="subtitle"/>
+        </VBox>
 
-    <StackPane fx:id="imageDropArea" alignment="CENTER" prefHeight="300.0"
-               maxWidth="720.0"
-               style="-fx-border-color: #8a8a8a; -fx-border-style: dashed; -fx-border-radius: 8; -fx-background-color: #f4f4f4; -fx-background-radius: 8;">
-        <ImageView fx:id="imagePreview" fitWidth="680.0" fitHeight="270.0"
-                   preserveRatio="true" smooth="true"/>
-        <Label fx:id="placeholderLabel" text="Drop an image here"
-               style="-fx-text-fill: #666666; -fx-font-size: 16px;"/>
-    </StackPane>
+        <StackPane fx:id="imageDropArea" alignment="CENTER" prefHeight="325.0"
+                   maxWidth="700.0" styleClass="drop-area">
+            <ImageView fx:id="imagePreview" fitWidth="660.0" fitHeight="285.0"
+                       preserveRatio="true" smooth="true"/>
+            <Label fx:id="placeholderLabel" text="Drop an image here" styleClass="placeholder"/>
+        </StackPane>
 
-    <Button text="Choose Image..." onAction="#chooseImage"/>
-    <Label fx:id="statusLabel" text="No image selected." wrapText="true"/>
-    <Label text="Generated description" style="-fx-font-weight: bold; -fx-underline: true;"/>
-    <HBox alignment="CENTER" spacing="12.0" maxWidth="720.0">
-        <TextArea fx:id="captionPreview" text="The generated description will appear here."
-                  prefWidth="600.0" prefRowCount="3" maxWidth="640.0"
-                  wrapText="true" editable="false"/>
-        <Button fx:id="speakButton" text="Read Aloud" onAction="#speakDescription" disable="true"/>
-    </HBox>
-</VBox>
+        <Button text="Choose Image..." onAction="#chooseImage" styleClass="primary-button"/>
+        <Label fx:id="statusLabel" text="No image selected." wrapText="true" styleClass="status-label"/>
+        <Label text="Generated description" styleClass="section-title"/>
+        <HBox alignment="CENTER" spacing="12.0" maxWidth="660.0" styleClass="caption-row">
+            <TextArea fx:id="captionPreview" text="The generated description will appear here."
+                      prefWidth="460.0" prefRowCount="3" maxWidth="480.0"
+                      wrapText="true" editable="false" styleClass="caption-area"/>
+            <Button fx:id="speakButton" text="Read Aloud" onAction="#speakDescription"
+                    disable="true" styleClass="secondary-button"/>
+        </HBox>
+    </VBox>
+</StackPane>
